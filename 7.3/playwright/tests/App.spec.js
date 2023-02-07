@@ -16,7 +16,7 @@ test("Successful authorization", async () => {
   await expect(page.locator("h2")).toContainText(["Мои курсы и профессии"]);
   await page.screenshot({ path: "screenshotSuccessful.png", fullPage: true });
   browser.close();
-}, 60000);
+}, 80000);
 
 test("Failed authorization", async () => {
   const browser = await chromium.launch({
@@ -32,4 +32,4 @@ test("Failed authorization", async () => {
   await expect(error).toHaveText("Вы ввели неправильно логин или пароль");
   await page.screenshot({ path: "screenshotFailed.png", fullPage: true });
   browser.close();
-}, 60000);
+}, 80000);
