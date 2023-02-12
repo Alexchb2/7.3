@@ -3,53 +3,49 @@ const { generateName } = require("./lib/util.js");
 
 let page;
 
-beforeEach(async () => {
-  page = await browser.newPage();
-  await page.setDefaultNavigationTimeout(0);
-});
-
-afterEach(() => {
-  page.close();
-});
-
-describe("Netology.ru tests", () => {
+describe("Positive tests", () => {
   beforeEach(async () => {
     page = await browser.newPage();
-    await page.goto("https://netology.ru");
+    await page.goto("http://qamid.tmweb.ru/client/index.php");
+    await clickElement(page, '[data-time-stamp="1676494800"]');
+    await clickElement(page, '[data-seance-id="140"]');
+  });
+  
+  afterEach(() => {
+    page.close();
+  });
+  
+  test("The first ticket", async () => {
+    await clickElement(page, 'div:nth-child(10) > span:nth-child(6)');
+    await clickElement(page, 'body > main > section > button');
+    const actual = await getText(page, "h2.ticket__check-title");
+    expect(actual).toContain("Вы выбрали билеты:");
+  });
+  
+  test("Buy two ticket", async () => {
+    await clickElement(page, 'div:nth-child(10) > span:nth-child(6)');
+    await clickElement(page, 'div:nth-child(10) > span:nth-child(7)');
+    await clickElement(page, 'body > main > section > button');
+    const actual = await getText(page, "h2.ticket__check-title");
+    expect(actual).toContain("Вы выбрали билеты:");
+  });
   });
 
-  test("The first test'", async () => {
-    const title = await page.title();
-    console.log("Page title: " + title);
-    await clickElement(page, "header a + a");
-    const title2 = await page.title();
-    console.log("Page title: " + title2);
-    const pageList = await browser.newPage();
-    await pageList.goto("https://netology.ru/navigation");
-    await pageList.waitForSelector("h1");
-  });
+describe("Positive tests", () => {
+  beforeEach(async () => {
+    page = await browser.newPage();
+    await page.goto("http://qamid.tmweb.ru/client/index.php");
+    await clickElement(page, '[data-time-stamp="1676149200"]');
+    await clickElement(page, '[data-seance-time-stamp="1676224800"]');
 
-  test("The first link text 'Медиа Нетологии'", async () => {
-    const actual = await getText(page, "header a + a");
-    expect(actual).toContain("Медиа Нетологии");
   });
-
-  test("The first link leads on 'Медиа' page", async () => {
-    await clickElement(page, "header a + a");
-    const actual = await getText(page, ".logo__media");
-    await expect(actual).toContain("Медиа");
+  afterEach(() => {
+    page.close();
+  });
+  test("Buy Occupied place", async () => {
+    await clickElement(page, 'div:nth-child(10) > span.buying-scheme__chair.buying-scheme__chair_standart.buying-scheme__chair_taken');
+    const actual = await page.$eval(".acceptin-button", (link) => link.getAttribute("disabled"));
+    expect(actual).toEqual("true");
   });
 });
 
-test("Should look for a course", async () => {
-  await page.goto("https://netology.ru/navigation");
-  await putText(page, "input", "тестировщик");
-  const actual = await page.$eval("a[data-name]", (link) => link.textContent);
-  const expected = "Тестировщик ПО";
-  expect(actual).toContain(expected);
-});
-
-test("Should show warning if login is not email", async () => {
-  await page.goto("https://netology.ru/?modal=sign_in");
-  await putText(page, 'input[type="email"]', generateName(5));
-});
