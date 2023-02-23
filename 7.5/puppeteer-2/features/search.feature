@@ -1,12 +1,19 @@
 Feature: Tickets
-    Scenario: The first tickett
-    When user clicks on 16 day and 12:00 time, on 10 row and 6 chair and on Забронировать button
-    Then user sees opened page with Row / Chair '10/6'
+  Scenario: The first ticket
+    When user clicks on {int} day and {int} time
+    When user clicks on {int} row and {int} chair
+    When user clicks on Забронировать button
+    Then user sees opened page with Row / Chair {int}
 
   Scenario: Buy two ticket
-    When user clicks on 16 day and 12:00 time, on 10 row and 6 chair and on 10 row and 6 chair and on Забронировать button
-    Then user sees opened page with Row / Chair: '10/6, 10/7'
+    When user clicks on {int} day and {int} time
+    When user clicks on {int} row and {int} chair
+    When user clicks on {int} row and {int} chair
+    When user clicks on Забронировать button
+    Then user sees opened page with Row / Chair: {int}, {int}
 
   Scenario: Buy Occupied place
-    When user clicks on today and 21:00 time, on 'taken' chair and on Забронировать button
+    When user clicks on {int} day and {int} time
+    When user clicks on 'taken' chair and 
+    When user clicks on Забронировать button
     Then button Забронировать is disabled
