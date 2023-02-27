@@ -30,24 +30,6 @@ When("user clicks on Забронировать button", async function () {
     return await clickElement(this.page, "button.acceptin-button");
 });
 
-Then("user sees opened page with Row / Chair {string}", async function (string) {
-    const actual = await getText(this.page, ".ticket__chairs");
-    const expected = string;
-    expect(actual).contains(expected);
-});
-
-When("user clicks on {int} row and {int} chair", async function (row, chair) {
-    await clickElement(this.page, `div:nth-child(${row}) > span:nth-child(${chair})`);
-});
-
-When("user clicks on {int} row and {int} chair", async function (row, chair) {
-    await clickElement(this.page, `div:nth-child(${row}) > span:nth-child(${chair})`);
-});
-
-When("user clicks on Забронировать button", async function () {
-    return await clickElement(this.page, "button.acceptin-button");
-});
-
 Then("user sees opened page with Row / Chair: {string}", async function (string) {
     const actual = await getText(this.page, ".ticket__chairs");
     const expected = string;
